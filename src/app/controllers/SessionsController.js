@@ -20,10 +20,10 @@ class SessionsController {
           message: 'Usuário não encontrado. Verifique se o e-mail digitado está correto e tente novamente.'
         });
       }
-
+      const databasePassword = user.services.password.bcrypt ?? user.services.password;
       const newPassword = SHA256(password);
       //Valida se a senha está correta
-      if (!(await bcrypt.compare(newPassword, user.services.password))) {
+      if (!(await bcrypt.compare(newPassword, databasePassword))) {
         console.log('senha incorreta');
         return res.status(401).json({
           error: true,
